@@ -1,0 +1,86 @@
+.dropboxfilechooserbtn.dropbox-dropin-btn{
+    height: 19px !important; line-height: 19px !important;
+}
+
+.dropbox-dropin-btn .dropin-btn-status{
+    width: 14px  !important; height: 14px  !important; top: 0px !important;
+}
+
+#cbdrpboxchooserwrap{
+    border: 1px solid #ddd; border-top:0 none; padding:5px; display: block; clear: both;
+    margin:0px;
+    background: #f5f5f5;
+}
+
+.dropbox-chooser{
+    float: left; display: inline-block;
+}
+
+#codeboxrdroboxchoosernotice{
+    background: none repeat scroll 0 0 #ebebeb;
+    display: block;
+
+    margin: 0 auto;
+    outline: 1px solid #efefef;
+    padding: 2px;
+    width: 99%;
+    height: 22px;
+    clear: both;
+
+
+}
+
+.codeboxrdroboxchoosernoticel{
+    float: left; display: inline-block;
+}
+
+.codeboxrdroboxchoosernoticer{
+  float: right; display: inline-block;
+  border:  1px solid #ccc; padding:0px 6px; margin: 1px; color: #000; cursor: pointer;
+  text-decoration: none !important;
+}
+
+#dropboxinputwrap{
+    clear: both;
+    display: inline-block;
+    float: left;
+    margin-left: 10px;
+    margin-top: 10px;
+    width: 100%;
+}
+
+#dropboxinputwrap .dropboxinputsinglewrap{
+    margin:5px; float: left; display: inline-block; border: 1px solid #DFDFDF; padding: 5px;
+    background: #fff;
+}
+
+#dropboxinputwrap .dropboxinputsinglewrap img{
+    float: left; display: inline-block; padding: 2px; border: 1px solid #ccc; margin: 0 0 0 5px;
+    height: 100px; width: 100px; cursor: pointer;
+}
+
+#dropboxinputwrap .dropboxinputsinglewrap img.dbfiletype{
+    border: 0 none;
+    display: inline-block;
+    float: left;
+    height: 32px;
+    margin: 0 5px 0 0;
+    padding: 0;
+    width: 32px;
+}
+
+#dropboxinputwrap .dropboxinput{
+    float: left; display: inline-block;  padding: 5px; margin: 0; clear: both; width: 211px;
+}
+
+#dropboxinputwrap .dropboxinput a{
+    font-size: 14px; line-height: 16px; float: left; display: inline-block; clear: both;
+}
+
+.cbclear{
+    clear: both;
+}
+
+/*
+font-size:12px; line-height:16px; margin-top: 0;
+*/

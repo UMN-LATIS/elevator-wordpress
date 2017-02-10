@@ -1,0 +1,19 @@
+/* This stylesheet is used to style the public-facing components of the plugin. */
+
+.elevatorEmbed {
+	background-color: rgb(232, 232, 232);
+}
+
+.elevatorEmbed iframe {
+	margin: 0;
+}
+
+.metadataSection {
+	margin-top: 10px;
+	margin-bottom:10px;
+}
+
+.elevatorEmbed .metadataRow {
+	margin: 0;
+	margin-left: 10px;
+}
