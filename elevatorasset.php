@@ -59,7 +59,11 @@ require_once( plugin_dir_path( __FILE__ ) . 'elevatorAPI.php' );
 
 function elevator_func( $atts ) {
 	$options = get_option('elevatorasset_global_settings');
-	$elevatorAPI = new elevatorAPI("http://dev.elevator.umn.edu/api/v1/","WeMtycrjMBqYMW","TfXkSfrunDs31QGr");
+	$endpoint = $options["endpoint"];
+	$key = $options["apikey"];
+	$secret = $options["apisecret"];
+
+	$elevatorAPI = new elevatorAPI($endpoint . "/api/v1/",$key,$secret);
 
 	$a = shortcode_atts( array(
 		'width' => '',
@@ -72,6 +76,7 @@ function elevator_func( $atts ) {
 		), $atts );
 
 	$embedURL = $elevatorAPI->getEmbedContent($a['fileobjectid']);
+
 	if($a['includelink'] || $a['includesummary']) {
 		$assetInfo = $elevatorAPI->assetPreview($a['objectid']);
 	}

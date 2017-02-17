@@ -70,7 +70,7 @@ $(document).ready(function(){
                 
                 wp.media.editor.insert(shortcode);
               },
-              apiKey: "WeMtycrjMBqYMW",
+              apiKey: '',
               entangledSecret: '',
               timeStamp: ''
             });
