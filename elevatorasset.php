@@ -11,7 +11,7 @@
  * Plugin Name:       Elevator Asset Browser
  * Plugin URI:        http://github.com/umn-latis/
  * Description:       Adds dropbox button before editor to choose an asset from Elevator
- * Version:           1.0.0
+ * Version:           0.1.2
  * Author:           Colin McFadden
  * Author URI:       http://www.cmcfaddenc.om
  * Text Domain:       elevatorasset
