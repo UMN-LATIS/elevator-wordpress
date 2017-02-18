@@ -80,7 +80,7 @@ class elevatorAPI
         return $assetList;
     }
 
-    function getEmbedContent($objectId, $instance, $excerpt=null) {
+    function getEmbedContent($objectId, $instance = null, $excerpt=null) {
         if ($excerpt) {
             $request = "asset/getExcerptLink/" . $excerpt . "/" . $instance;
         }
