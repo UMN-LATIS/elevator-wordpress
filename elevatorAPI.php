@@ -2,7 +2,6 @@
 
 /**
 * Elevator API access class
-* How much do we hate curl?
 * But I don't know if the target moodle environment has modern libraries, so this seems like a safe bet.
 */
 class elevatorAPI
@@ -80,7 +79,7 @@ class elevatorAPI
         return $assetList;
     }
 
-    function getEmbedContent($objectId, $instance = null, $excerpt=null) {
+    function getEmbedContent($objectId, $instance, $excerpt=null) {
         if ($excerpt) {
             $request = "asset/getExcerptLink/" . $excerpt . "/" . $instance;
         }
@@ -186,11 +185,7 @@ class elevatorAPI
 
 
     private function execute($targetURL=null, $postArray=null, $userId=null) {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $this->baseURL . $targetURL);
-        curl_setopt($ch, CURLOPT_HEADER, FALSE);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        
         if (!$userId) {
             $userId = $this->userId;
         }
@@ -199,31 +194,27 @@ class elevatorAPI
         }
 
         $now = time();
-        $header[] = "Authorization-User: " . $userId;
-        $header[] = "Authorization-Key: " . $this->apiKey;
-        $header[] = "Authorization-Timestamp: " . $now;
-        $header[] = "Authorization-Hash: " . sha1($now . $this->apiSecret);
+        $header = array("Authorization-User"=>$userId, "Authorization-Key" => $this->apiKey, "Authorization-Timestamp" => $now, "Authorization-Hash" => sha1($now . $this->apiSecret));
 
-        if ($postArray) {
-            curl_setopt($ch,CURLOPT_POST, count($postArray));
-            curl_setopt($ch,CURLOPT_POSTFIELDS, $postArray);
-        }
 
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
 
-        try {
-            $data = curl_exec($ch);
-            $response = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            if ($response == 200) {
-                return $data;
-            }
-            else {
-                return false;
-            }
-        }
-        catch (Exception $ex) {
-            // echo $ex;
+        $args = array(
+            'body' => $postArray,
+            'timeout' => '5',
+            'redirection' => '5',
+            'httpversion' => '1.0',
+            'blocking' => true,
+            'headers' => $header,
+            'cookies' => array()
+            );
+
+        $response = $response = wp_remote_post($this->baseURL . $targetURL, $args);
+        if ( is_wp_error( $response ) ) {
+            $error_message = $response->get_error_message();
+            echo "Something went wrong: $error_message";
             return false;
+        } else {
+            return $response["body"];
         }
 
     }
