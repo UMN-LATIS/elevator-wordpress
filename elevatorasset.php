@@ -102,11 +102,9 @@ function elevator_func( $atts ) {
 			$returnString .= "<p class='metadataRow metadataLink'>" . $assetInfo['title'] . "</p>";
 		}
 
-		if($includeSummary) {
-			if (isset($assetInfo['entries'])){
-				foreach($assetInfo['entries'] as $entry) {
-					$returnString .= "<p class='metadataRow metadataEntry'><span class='metadataLabel'>" . $entry["label"] . ":</span> <span class='metadataValue'>" . implode(", ", $entry["entries"]) . "</span></p>";
-				}
+		if ($includeSummary && isset($assetInfo['entries'])){
+			foreach($assetInfo['entries'] as $entry) {
+				$returnString .= "<p class='metadataRow metadataEntry'><span class='metadataLabel'>" . $entry["label"] . ":</span> <span class='metadataValue'>" . implode(", ", $entry["entries"]) . "</span></p>";
 			}
 		}
 
