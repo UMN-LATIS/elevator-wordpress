@@ -149,11 +149,11 @@ function block_editor_assets() {
 	$script .= 'elevator_settings_includeSummary = '. json_encode($includeSummary) .'; ';
 	
 	wp_add_inline_script('block-elevator-block-js', $script, 'before');
-	// // Styles.
-	// wp_enqueue_style(
-	// 	'elevator-embed-block-editor',
-	// 	plugins_url( 'dist/blocks.editor.build.css', __FILE__ ),
-	// 	array( 'wp-edit-blocks' ),
-	// 	filemtime( plugin_dir_path( __FILE__ ) . 'editor.css' )
-	// );
+	// Styles.
+	wp_enqueue_style(
+		'elevator-embed-block-editor',
+		plugins_url( 'dist/blocks.editor.build.css', __FILE__ ),
+		array( 'wp-edit-blocks' ),
+		filemtime( plugin_dir_path( __FILE__ ) . 'editor.css' )
+	);
 }
