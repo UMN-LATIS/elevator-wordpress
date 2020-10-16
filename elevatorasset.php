@@ -77,24 +77,23 @@ function elevator_func( $atts ) {
 
 	$embedURL = $elevatorAPI->getEmbedContent($a['fileobjectid']);
 
-	if($a['includelink'] || $a['includesummary']) {
-		$assetInfo = $elevatorAPI->assetPreview($a['objectid']);
-	}
-	
+	$returnString = "<span class='elevatorEmbed' style='display:inline-block; width: " . $a['width'] . "px'><iframe width='" . $a['width'] . "' height='" . $a['height'] . "' allowfullscreen=yes frameborder=0 src='" . $embedURL . "'></iframe>";
+
 	$includeSummary = false;
+	$includeLink = false;
+
 	if($a['includesummary'] && $a['includesummary'] == "on") {
 		$includeSummary = true;
 	}
 
-	$includeLink = false;
 	if($a['includelink'] && $a['includelink'] == "on") {
 		$includeLink = true;
 	}
 
-	$returnString = "<span class='elevatorEmbed' style='display:inline-block; width: " . $a['width'] . "px'><iframe width='" . $a['width'] . "' height='" . $a['height'] . "' allowfullscreen=yes frameborder=0 src='" . $embedURL . "'></iframe>";
-
 	if($includeSummary || $includeLink) {
+		$assetInfo = $elevatorAPI->assetPreview($a['objectid']);
 		$returnString .= "<div class='metadataSection'>";
+
 		if($includeLink) {
 			$returnString .= "<p class='metadataRow metadataLink'><a href='" . $a['sourceurl'] . "'>" . $assetInfo["title"] . "</a></p>";
 		}
@@ -103,17 +102,13 @@ function elevator_func( $atts ) {
 			$returnString .= "<p class='metadataRow metadataLink'>" . $assetInfo['title'] . "</p>";
 		}
 
-		if($includeSummary) {
+		if ($includeSummary && isset($assetInfo['entries'])){
 			foreach($assetInfo['entries'] as $entry) {
 				$returnString .= "<p class='metadataRow metadataEntry'><span class='metadataLabel'>" . $entry["label"] . ":</span> <span class='metadataValue'>" . implode(", ", $entry["entries"]) . "</span></p>";
-
-
 			}
 		}
 
 		$returnString .= "</div>";
-
-
 	}
 
 	$returnString .= "</span>";
