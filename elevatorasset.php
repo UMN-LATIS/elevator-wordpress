@@ -121,3 +121,39 @@ function elevator_func( $atts ) {
 
 }
 add_shortcode( 'elevator', 'elevator_func' );
+
+
+add_action( 'enqueue_block_editor_assets', 'block_editor_assets' );
+
+function block_editor_assets() {
+	// Scripts.
+
+	wp_enqueue_script(
+		'block-elevator-block-js',
+		plugins_url( 'dist/blocks.build.js',  __FILE__  ),
+		[ 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-components', 'wp-editor' ],
+		true
+	);
+
+	$options = get_option('elevatorasset_global_settings');
+	$endpoint = $options["endpoint"];
+	$key = $options["apikey"];
+	$secret = $options["apisecret"];
+	$includeLink = $options["linktooriginalasset"];
+	$includeSummary = $options["includesummary"];
+
+	$script  = 'elevator_settings_endpoint = '. json_encode($endpoint) .'; ';
+	$script .= 'key = '. json_encode($key) .'; ';
+	$script .= 'secret = '. json_encode($secret) .'; ';
+	$script .= 'elevator_settings_includeLink = '. json_encode($includeLink) .'; ';
+	$script .= 'elevator_settings_includeSummary = '. json_encode($includeSummary) .'; ';
+	
+	wp_add_inline_script('block-elevator-block-js', $script, 'before');
+	// // Styles.
+	// wp_enqueue_style(
+	// 	'elevator-embed-block-editor',
+	// 	plugins_url( 'dist/blocks.editor.build.css', __FILE__ ),
+	// 	array( 'wp-edit-blocks' ),
+	// 	filemtime( plugin_dir_path( __FILE__ ) . 'editor.css' )
+	// );
+}
