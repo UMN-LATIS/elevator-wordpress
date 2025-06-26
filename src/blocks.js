@@ -103,7 +103,7 @@ registerBlockType( 'umn-latis/elevator-embed', {
 			sourceurl,
 			includeLink,
 			includeSummary,
-			UUID
+			// UUID
 		} = attributes;
 
 
@@ -122,11 +122,11 @@ registerBlockType( 'umn-latis/elevator-embed', {
 			setAttributes({"includeLink": elevator_settings_includeLink});
 		}
 
-		if (!attributes.UUID) {
-			setAttributes({ "UUID": ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
-    			(c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
-  			) });
-		}
+		// if (!attributes.UUID) {
+		// 	setAttributes({ "UUID": ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+    	// 		(c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+  		// 	) });
+		// }
 
 // [elevator width=640 height=480 includelink="' + includeLink +'" includesummary="'+includeSummary+'" fileobjectid="' + e.fileObjectId + '" objectid="' + e.objectId + '" sourceurl="' + e.currentLink + '"]
 
@@ -144,15 +144,15 @@ registerBlockType( 'umn-latis/elevator-embed', {
 					apiKey: "", 
 					timeStamp:"", 
 					entangledSecret: "",
-					UUID: attributes.UUID
+					// UUID: attributes.UUID
 				}, "*");  
 			}
 			if(typeof event.data.pluginResponse !== "undefined") {
 				console.log(event.data);
-				if (event.data.UUID = attributes.UUID) {
+				// if (event.data.UUID = attributes.UUID) {
 					setAttributes({ "fileobjectid": event.data.fileObjectId, "objectid": event.data.objectId, "sourceurl": event.data.currentLink });
 					callback(event.data);
-				}	
+				// }	
 				
 			}
 		}, false);
