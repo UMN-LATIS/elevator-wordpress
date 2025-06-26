@@ -163,6 +163,11 @@ class Elevatorasset_Admin {
 
 	        $options = get_option('elevatorasset_global_settings');
 
+	        // Add null checks for options
+	        if ( !is_array($options) ) {
+		        $options = array();
+	        }
+
 	        //var_dump($options);
 	        if(isset($options['apikey']) && $options['apikey'] != ''){
 		        wp_register_style( $this->plugin_slug . '-elevatorassetbtn', plugins_url( 'assets/css/elevatorassetbtn.css', __FILE__ ), array( ), elevatorasset::VERSION );

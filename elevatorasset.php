@@ -11,7 +11,7 @@
  * Plugin Name:       Elevator Asset Browser
  * Plugin URI:        http://github.com/umn-latis/
  * Description:       Adds dropbox button before editor to choose an asset from Elevator
- * Version:           0.1.9
+ * Version:           0.2.0
  * Author:           Colin McFadden
  * Author URI:       http://www.cmcfaddenc.om
  * Text Domain:       elevatorasset
@@ -59,9 +59,20 @@ require_once( plugin_dir_path( __FILE__ ) . 'elevatorAPI.php' );
 
 function elevator_func( $atts ) {
 	$options = get_option('elevatorasset_global_settings');
-	$endpoint = $options["endpoint"];
-	$key = $options["apikey"];
-	$secret = $options["apisecret"];
+	
+	// Add null checks for options
+	if ( !is_array($options) ) {
+		$options = array();
+	}
+	
+	$endpoint = isset($options["endpoint"]) ? $options["endpoint"] : '';
+	$key = isset($options["apikey"]) ? $options["apikey"] : '';
+	$secret = isset($options["apisecret"]) ? $options["apisecret"] : '';
+
+	// Check if required settings are configured
+	if ( empty($endpoint) || empty($key) || empty($secret) ) {
+		return '<p>Elevator Asset Browser is not properly configured. Please check the plugin settings.</p>';
+	}
 
 	$elevatorAPI = new elevatorAPI($endpoint . "/api/v1/",$key,$secret);
 
@@ -74,6 +85,11 @@ function elevator_func( $atts ) {
 		'includelink' => '',
 		'includesummary' => ''
 		), $atts );
+
+	// Check if required parameters are provided
+	if ( empty($a['fileobjectid']) ) {
+		return '<p>Missing required parameter: fileobjectid</p>';
+	}
 
 	$embedURL = $elevatorAPI->getEmbedContent($a['fileobjectid']);
 
@@ -95,16 +111,20 @@ function elevator_func( $atts ) {
 		$returnString .= "<div class='metadataSection'>";
 
 		if($includeLink) {
-			$returnString .= "<p class='metadataRow metadataLink'><a href='" . $a['sourceurl'] . "'>" . $assetInfo["title"] . "</a></p>";
+			$title = isset($assetInfo["title"]) ? $assetInfo["title"] : 'Asset';
+			$returnString .= "<p class='metadataRow metadataLink'><a href='" . $a['sourceurl'] . "'>" . $title . "</a></p>";
 		}
 
 		if(!$includeLink && $includeSummary) {
-			$returnString .= "<p class='metadataRow metadataLink'>" . $assetInfo['title'] . "</p>";
+			$title = isset($assetInfo['title']) ? $assetInfo['title'] : 'Asset';
+			$returnString .= "<p class='metadataRow metadataLink'>" . $title . "</p>";
 		}
 
-		if ($includeSummary && isset($assetInfo['entries'])){
+		if ($includeSummary && isset($assetInfo['entries']) && is_array($assetInfo['entries'])){
 			foreach($assetInfo['entries'] as $entry) {
-				$returnString .= "<p class='metadataRow metadataEntry'><span class='metadataLabel'>" . $entry["label"] . ":</span> <span class='metadataValue'>" . implode(", ", $entry["entries"]) . "</span></p>";
+				if ( isset($entry["label"]) && isset($entry["entries"]) && is_array($entry["entries"]) ) {
+					$returnString .= "<p class='metadataRow metadataEntry'><span class='metadataLabel'>" . $entry["label"] . ":</span> <span class='metadataValue'>" . implode(", ", $entry["entries"]) . "</span></p>";
+				}
 			}
 		}
 
@@ -131,11 +151,17 @@ function block_editor_assets() {
 	);
 
 	$options = get_option('elevatorasset_global_settings');
-	$endpoint = $options["endpoint"];
-	$key = $options["apikey"];
-	$secret = $options["apisecret"];
-	$includeLink = $options["linktooriginalasset"];
-	$includeSummary = $options["includesummary"];
+	
+	// Add null checks for options
+	if ( !is_array($options) ) {
+		$options = array();
+	}
+	
+	$endpoint = isset($options["endpoint"]) ? $options["endpoint"] : '';
+	$key = isset($options["apikey"]) ? $options["apikey"] : '';
+	$secret = isset($options["apisecret"]) ? $options["apisecret"] : '';
+	$includeLink = isset($options["linktooriginalasset"]) ? $options["linktooriginalasset"] : '';
+	$includeSummary = isset($options["includesummary"]) ? $options["includesummary"] : '';
 
 	$script  = 'elevator_settings_endpoint = '. json_encode($endpoint) .'; ';
 	$script .= 'key = '. json_encode($key) .'; ';

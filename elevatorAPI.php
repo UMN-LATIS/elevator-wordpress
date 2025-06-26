@@ -12,7 +12,7 @@ class elevatorAPI
     private $baseURL = null;
     public $fileTypes = null;
 
-    function __construct($elevatorURL, $apiKey, $apiSecret, $userId=null)
+    public function __construct($elevatorURL, $apiKey, $apiSecret, $userId=null)
     {
         $this->baseURL = $elevatorURL;
         $this->userId = $userId;
@@ -36,12 +36,12 @@ class elevatorAPI
      * If this becomes a big issue, we may want to move to using ldap on the elevator side for that, but I'm hoping to avoid that
      * dependency for now.
      */
-    function isCurrentUserLoggedIn($userId) {
+    public function isCurrentUserLoggedIn($userId) {
         $request = "hello";
         return $this->execute($request, null, $userId);
     }
 
-    function getAssetsFromDrawer($drawerId, $pageNumber=0) {
+    public function getAssetsFromDrawer($drawerId, $pageNumber=0) {
         $request = "api_drawers/getContentsOfDrawer/" . $drawerId . "/" . ($pageNumber-1) . "/" . $this->fileTypes;
         $assetList = array();
         $result = $this->execute($request);
@@ -53,7 +53,7 @@ class elevatorAPI
         return $assetList;
     }
 
-    function getAssetsFromCollection($collectionId, $pageNumber=0) {
+    public function getAssetsFromCollection($collectionId, $pageNumber=0) {
         $request = "collections/getContentsOfCollection/" . $collectionId . "/" . ($pageNumber-1) . "/" . $this->fileTypes;
         $assetList = array();
         $result = $this->execute($request);
@@ -68,7 +68,7 @@ class elevatorAPI
      * In Elevator, a single asset may contain many files.  Moodle doesn't have a great way to display that, so instead
      * in those cases we display the "parent" asset as a folder and place all the files inside it.
      */
-    function getAssetChildren($objectId) {
+    public function getAssetChildren($objectId) {
         $request = "asset/getAssetChildren/" . $objectId . "/" . $this->fileTypes;
         $assetList = array();
         $result = $this->execute($request);
@@ -79,7 +79,7 @@ class elevatorAPI
         return $assetList;
     }
 
-    function getEmbedContent($objectId, $instance=null, $excerpt=null) {
+    public function getEmbedContent($objectId, $instance=null, $excerpt=null) {
         if ($excerpt) {
             $request = "asset/getExcerptLink/" . $excerpt . "/" . $instance;
         }
@@ -99,7 +99,7 @@ class elevatorAPI
     }
 
 
-    function search($searchTerm, $pageNumber = 0) {
+    public function search($searchTerm, $pageNumber = 0) {
 
         $request = "search/performSearch/";
 
@@ -117,7 +117,7 @@ class elevatorAPI
 
     }
 
-    function assetLookup($assetId) {
+    public function assetLookup($assetId) {
         $request = "asset/assetLookup/" . $assetId;
 
         $assetInfo = array();
@@ -131,7 +131,7 @@ class elevatorAPI
 
     }
 
-    function assetPreview($assetId) {
+    public function assetPreview($assetId) {
         $request = "asset/assetPreview/" . $assetId;
 
         $assetInfo = array();
@@ -145,7 +145,7 @@ class elevatorAPI
 
     }
 
-    function fileLookup($assetId) {
+    public function fileLookup($assetId) {
         $request = "asset/fileLookup/" . $assetId;
 
         $assetInfo = array();
@@ -160,7 +160,7 @@ class elevatorAPI
     }
 
 
-    function getDrawers() {
+    public function getDrawers() {
         $request = "api_drawers/listDrawers";
         $drawerList = array();
         $result = $this->execute($request);
@@ -171,7 +171,7 @@ class elevatorAPI
         return $drawerList;
     }
 
-    function getCollections() {
+    public function getCollections() {
         $request = "collections/listCollections";
         $collectionList = array();
         $result = $this->execute($request);
